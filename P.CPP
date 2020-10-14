@@ -1,0 +1,141 @@
+#include<conio.h>
+#include<stdio.h>
+#include<graphics.h>
+#include<dos.h>
+mfill(int x,int y,int pcol,int);
+void main()
+{
+	clrscr();
+	int gd=DETECT,gm,i,j;
+
+	initgraph(&gd,&gm,"C:\\TURBOC3\\BGI");
+	line(20,20,200,200);
+	rectangle(0,0,200,200);
+	circle(100,100,90);
+	circle(100,100,40);
+	mfill(100,31,RED,1);
+	getch();
+	closegraph();
+}
+mfill(int x,int y,int pcol,int flag1)
+{
+	int i,l=x,r=x,t=y,b=y,color,color1,checkc,end=y,ini=y,flag=0;
+	color1=color=getpixel(x,y);
+	/*********EXTRA*********
+	while(color1==color)
+	{	putpixel(x,t);
+		t--
+	}
+	b++;
+	while(color1==color)
+	{	putpixel(x,b);
+		b++;
+	}
+	l=x-1;r=x+1;
+	*/             /*
+	if(flag1==1)
+	{ l--;r++;
+	while(color1==color&&l>=0)
+	{
+		putpixel(x,t,pcol);
+		t--;
+		color1=getpixel(x,t);
+	}
+	color1=getpixel(x,b+1);
+	while(color1==color&&r<=1000)
+	{
+		putpixel(x,b,pcol);
+		b++;
+		color1=getpixel(x,b);
+	}
+	color1=color;
+	}            */
+	while(color1==color&&l>=0)
+	{
+		t=y;b=y+1;
+		while(color1==color&&t>=0)
+		{
+			putpixel(l,t,pcol);
+			t--;
+			color1=getpixel(l,t);
+		}
+		delay(50);
+		color1=getpixel(l,b);
+		while(color1==color&&b<=500)
+		{
+			putpixel(l,b,pcol);
+			b++;
+			color1=getpixel(l,b);
+		}
+		delay(50);
+		for(i=ini;i<end;i++)
+		{
+			checkc=getpixel(l,i);
+			if(checkc==color)
+				mfill(l,i,pcol,0);
+		}
+		ini=t+1;
+		end=b;
+		for(i=ini;i<end;i++)
+		{
+			checkc=getpixel(l+1,i);
+			if(checkc==color)
+				mfill(l+1,i,pcol,0);
+		}
+		flag=1;
+		l--;
+		color1=getpixel(l,y);
+	}
+	for(i=ini;i<end;i++)
+	{
+		checkc=getpixel(l,i);
+		if(checkc==color&&flag==1)
+			mfill(l,i,pcol,0);
+	}
+	flag=0;
+	ini=y;end=y;
+	color1=getpixel(r+1,t);
+	while(color1==color&&r<=1000)
+	{
+		t=y;b=y+1;
+		color1=getpixel(r,t);
+		while(color1==color&&t>=0)
+		{
+			putpixel(r,t,pcol);
+			t--;
+			color1=getpixel(r,t);
+		}
+		delay(50);
+		color1=getpixel(r,b);
+		while(color1==color&&b<=500)
+		{
+			putpixel(r,b,pcol);
+			b++;
+			color1=getpixel(r,b);
+		}
+		delay(50);
+		for(i=ini;i<end;i++)
+		{
+			checkc=getpixel(r,i);
+			if(checkc==color)
+				mfill(r,i,pcol,0);
+		}
+		ini=t+1;
+		end=b;
+		for(i=ini;i<end;i++)
+		{
+			checkc=getpixel(r-1,b);
+			if(checkc==color)
+				mfill(r-1,b,pcol,0);
+		}
+		flag=1;
+		r++;
+		color1=getpixel(r,y);
+	}
+	for(i=ini;i<end;i++)
+	{
+		checkc=getpixel(r,i);
+		if(checkc==color&&flag==1)
+			mfill(r,i,pcol,0);
+	}
+}
